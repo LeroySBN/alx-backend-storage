@@ -23,12 +23,12 @@ BEGIN
     
     -- Update the average_score of the student in the users table
     UPDATE users u
-    SET average_score = (
-        SELECT AVG(score)
-        FROM corrections c
-        WHERE c.user_id = user_id
-    )
-    WHERE u.id = user_id;
+    JOIN (
+        SELECT user_id, AVG(score) AS avg_score
+        FROM corrections
+        GROUP BY user_id
+    ) c ON u.id = c.user_id
+    SET u.average_score = c.avg_score;
     
 END;
 //

@@ -4,7 +4,7 @@ DELIMITER //
 CREATE PROCEDURE AddBonus(
     IN user_id INT,
     IN project_name VARCHAR(255),
-    IN score DECIMAL(10,2)
+    IN score INT
 )
 BEGIN
     DECLARE project_id INT;
@@ -21,8 +21,15 @@ BEGIN
     -- Insert the new correction for the student
     INSERT INTO corrections (user_id, project_id, score) VALUES (user_id, project_id, score);
     
-    -- Update the total score of the student in the users table
-    UPDATE users SET total_score = total_score + score WHERE id = user_id;
+    -- Update the average_score of the student in the users table
+    UPDATE users u
+    SET average_score = (
+        SELECT AVG(score)
+        FROM corrections c
+        WHERE c.user_id = user_id
+    )
+    WHERE u.id = user_id;
+    
 END;
 //
 

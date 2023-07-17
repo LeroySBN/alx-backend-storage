@@ -4,6 +4,7 @@ module for update topics
 """
 import pymongo
 
+
 def update_topics(mongo_collection, name: str, topics: str[]):
     """
     changes all topics of a school document based on the name

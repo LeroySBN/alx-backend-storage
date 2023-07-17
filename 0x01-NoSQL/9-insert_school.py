@@ -9,4 +9,5 @@ def insert_school(mongo_collection, **kwargs):
     """
     inserts a new document in a collection based on kwargs
     """
-    return mongo_collection.insert_many(kwargs)
+    if mongo_collection is not None and kwargs is not None:
+        return mongo_collection.insert_many(kwargs)

@@ -2,10 +2,10 @@
 """
 module 8-all
 """
-from pymongo import MongoClient
+from pymongo.collection import Collection
 
 
-def list_all(mongo_collection) -> list:
+def list_all(mongo_collection: Collection) -> list:
     """lists all documents in a collection"""
     if mongo_collection is None:
         return []

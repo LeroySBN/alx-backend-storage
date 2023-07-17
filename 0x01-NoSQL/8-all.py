@@ -10,5 +10,4 @@ def list_all(mongo_collection):
     if not mongo_collection:
         return []
     with MongoClient() as client:
-        db = client[mongo_collection]
-        return db.find()
+        return client.mongo_collection.find()

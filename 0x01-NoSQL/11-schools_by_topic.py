@@ -2,10 +2,10 @@
 """
 module 11-schools_by_topic
 """
-import pymongo
+from pymongo.collection import Collection
 
 
-def schools_by_topic(mongo_collection, topic: str):
+def schools_by_topic(mongo_collection: Collection, topic: str) -> list:
     """
     returns the list of school having a specific topic
     """

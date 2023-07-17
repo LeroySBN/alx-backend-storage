@@ -351,6 +351,4 @@ $
 ```
 
 ## Tasks
-<details>
-[0x01](./0x01.png)
-</details>
+![0x01](./0x01.png)

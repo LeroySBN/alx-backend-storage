@@ -2,11 +2,13 @@
 """
 module 8-all
 """
-import pymongo
+from pymongo import MongoClient
 
 
 def list_all(mongo_collection):
     """lists all documents in a collection"""
     if not mongo_collection:
         return []
-    return list(mongo_collection.find())
+    with MongoClient() as client:
+        db = client[mongo_collection]
+        return db.find()

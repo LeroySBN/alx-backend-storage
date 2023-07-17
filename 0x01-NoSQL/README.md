@@ -67,31 +67,57 @@ Or if `/etc/init.d/mongod` is missing, please find here an example of the file:
     <summary>Click to expand/hide file contents</summary>
     ```
     #!/bin/sh
+    
     ### BEGIN INIT INFO
+    
     # Provides:          mongod
+    
     # Required-Start:    $network $local_fs $remote_fs
+    
     # Required-Stop:     $network $local_fs $remote_fs
+    
     # Should-Start:      $named
+    
     # Should-Stop:
+    
     # Default-Start:     2 3 4 5
+    
     # Default-Stop:      0 1 6
+    
     # Short-Description: An object/document-oriented database
+    
     # Description:       MongoDB is a high-performance, open source, schema-free
+    
     #                    document-oriented data store that's easy to deploy, manage
+    
     #                    and use. It's network accessible, written in C++ and offers
+    
     #                    the following features:
+    
     #
+    
     #                       * Collection oriented storage - easy storage of object-
+    
     #                         style data
+    
     #                       * Full index support, including on inner objects
+    
     #                       * Query profiling
+    
     #                       * Replication and fail-over support
+    
     #                       * Efficient storage of binary data including large
+    
     #                         objects (e.g. videos)
+    
     #                       * Automatic partitioning for cloud-level scalability
+    
     #
+    
     #                    High performance, scalability, and reasonable depth of
+    
     #                    functionality are the goals for the project.
+    
     ### END INIT INFO
 
     PATH=/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin
@@ -326,5 +352,5 @@ $
 
 ## Tasks
 <details>
-![0x01](./0x01.png)
+[0x01](./0x01.png)
 </details>

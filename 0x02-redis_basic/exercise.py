@@ -8,6 +8,21 @@ from typing import Union, Callable, Optional
 from functools import wraps
 
 
+def count_calls(method: Callable) -> Callable:
+    """
+    Method count_calls
+    """
+    @wraps(method)
+    def wrapper(self, *args, **kwargs):
+        """
+        Method wrapper
+        """
+        self._redis.incr(method.__qualname__)
+        return method(self, *args, **kwargs)
+    return wrapper
+
+
+@count_calls
 class Cache:
     """
     Class Cache
@@ -27,7 +42,8 @@ class Cache:
         self._redis.set(key, data)
         return key
 
-    def get(self, key: str, fn: Optional[Callable] = None) -> Union[str, bytes, int, float]:
+    def get(self, key: str, fn: Optional[Callable] = None)
+    -> Union[str, bytes, int, float]:
         """
         getter function for key
         """

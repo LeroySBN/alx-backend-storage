@@ -26,7 +26,6 @@ BEGIN
     )
     WHERE id = user_id;
     
-END;
-//
+END //
 
 delimiter ;

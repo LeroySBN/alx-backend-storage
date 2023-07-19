@@ -1,14 +1,10 @@
 -- SQL script that creates a stored procedure AddBonus that adds a new correction for a student.
-DELIMITER $$
+delimiter //
 
-CREATE PROCEDURE AddBonus(
-    IN user_id INT,
-    IN project_name VARCHAR(255),
-    IN score INT
-)
+CREATE PROCEDURE AddBonus(IN user_id INT, IN project_name VARCHAR(255), IN score INT)
 BEGIN
     DECLARE project_id INT;
-
+    
     -- Check if project exists in the projects table
     SELECT id INTO project_id FROM projects WHERE name = project_name LIMIT 1;
     
@@ -22,14 +18,14 @@ BEGIN
     INSERT INTO corrections (user_id, project_id, score) VALUES (user_id, project_id, score);
     
     -- Update the average_score of the student in the users table
-    UPDATE users u
-    JOIN (
-        SELECT user_id, AVG(score) AS avg_score
+    UPDATE users
+    SET average_score = (
+        SELECT AVG(score)
         FROM corrections
-        GROUP BY user_id
-    ) c ON u.id = c.user_id
-    SET u.average_score = c.avg_score;
+        WHERE user_id = user_id
+    )
+    WHERE id = user_id;
     
-END $$
+END //
 
-DELIMITER ;
+delimiter ;

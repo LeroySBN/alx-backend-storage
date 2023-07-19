@@ -27,12 +27,9 @@ urls = [
 for url in urls:
     get_page(url)
 
-# for url in urls:
-#     count = cache.get(f"count:{url}")
-#     print(f"{url}: {count}")
-
+print(f"{'http://slowwly.robertomurray.co.uk/time.php'}: {cache.get('count:http://slowwly.robertomurray.co.uk/time.php')} >> expected: 1")
 print(f"{'https://twitter.com/'}: {cache.get('count:https://twitter.com/')} >> expected: 3")
 print(f"{'https://www.google.com/'}: {cache.get('count:https://www.google.com/')} >> expected: 2")
 print(f"{'https://www.reddit.com/'}: {cache.get('count:https://www.reddit.com/')} >> expected: 1")
 print(f"{'https://www.youtube.com/'}: {cache.get('count:https://www.youtube.com/')} >> expected: 1")
-print(f"{'https://www.stackoverflow.com/'}: {cache.get('count:https://www.stackoverflow.com/')} >> expected: 2")
+print(f"{'https://www.stackoverflow.com/'}: {cache.get('count:https://www.stackoverflow.com/')} >> expected: 3")

@@ -10,12 +10,12 @@ from functools import wraps
 
 def count_calls(method: Callable) -> Callable:
     """
-    Method count_calls
+    Method that defines a decorator and returns the decorated function
     """
     @wraps(method)
     def wrapper(self, *args, **kwargs):
         """
-        Method wrapper
+        Method that increments the count for that key every time the method
         """
         result = method(self, *args, **kwargs)
         self._redis.incr(method.__qualname__)
@@ -25,12 +25,12 @@ def count_calls(method: Callable) -> Callable:
 
 def call_history(method: Callable) -> Callable:
     """
-    Method call_history
+    Method that defines a decorator to store the history of inputs and outputs
     """
     @wraps(method)
     def wrapper(self, *args, **kwargs):
         """
-        Method wrapper
+        Stores the history of inputs and outputs for a particular function
         """
         self._redis.rpush(method.__qualname__ + ":inputs", str(args))
         result = method(self, *args, **kwargs)
@@ -45,7 +45,7 @@ class Cache:
     """
     def __init__(self):
         """
-        Constructor
+        Constructor for the class Cache that takes no arguments
         """
         self._redis = redis.Redis()
         self._redis.flushdb()
@@ -54,7 +54,7 @@ class Cache:
     @call_history
     def store(self, data: Union[str, bytes, int, float]) -> str:
         """
-        Method store
+        Generates a random key and stores the input data in Redis using the key
         """
         key = str(uuid.uuid4())
         self._redis.set(key, data)
@@ -64,7 +64,12 @@ class Cache:
     def get(self, key: str, fn: Optional[Callable] = None) ->\
             Union[str, bytes, int, float]:
         """
-        getter function for key
+        Get method for redis database
+        Args:
+            key (str): string argument
+            fn: Callable argument. Defaults to None.
+        Returns:
+            Union[str, bytes, int, float]: key converted to the desired format
         """
         if fn:
             return fn(self._redis.get(key))
@@ -73,21 +78,21 @@ class Cache:
     @count_calls
     def get_str(self, key: str) -> str:
         """
-        Method get_str
+        Method get_str parametrizes get with correct conversion(str)
         """
         return self.get(key, str)
 
     @count_calls
     def get_int(self, key: str) -> int:
         """
-        Method get_int
+        Method get_str parametrizes get with correct conversion(int)
         """
         return self.get(key, int)
 
 
 def replay(method: Callable):
     """
-    Method replay
+    Displays the history of calls of a particular function
     """
     r = redis.Redis()
     method_name = method.__qualname__

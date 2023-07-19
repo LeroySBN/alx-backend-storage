@@ -2,7 +2,7 @@
 """
 module web
 """
-import Redis
+import redis
 
 
 def get_page(url: str) -> str:

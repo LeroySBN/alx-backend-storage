@@ -4,7 +4,7 @@ module web
 """
 import redis
 
-redis = redis.Redis()
+cache = redis.Redis()
 
 
 def get_page(url: str) -> str:
@@ -14,8 +14,8 @@ def get_page(url: str) -> str:
     import requests
     res = requests.get(url)
     key = f"count:{url}"
-    if redis.get(key):
-        redis.incr(key)
+    if cache.get(key):
+        cache.incr(key)
     else:
-        redis.set(key, 1)
+        cache.set(key, 1)
     return res.text

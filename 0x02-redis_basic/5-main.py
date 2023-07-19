@@ -8,21 +8,25 @@ get_page = __import__('web').get_page
 
 cache = redis.Redis()
 
+urls = [
+    'http://slowwly.robertomurray.co.uk/time.php',
+    'https://www.stackoverflow.com/',
+    'https://www.stackoverflow.com/',
+    'https://www.google.com/',
+    'https://twitter.com/',
+    'https://www.youtube.com/',
+    'https://www.instagram.com/',
+    'https://www.amazon.com/',
+    'https://www.google.com/',
+    'https://twitter.com/',
+    'https://www.reddit.com/',
+    'https://twitter.com/',
+    'https://www.stackoverflow.com/',
+]
 
-get_page('http://slowwly.robertomurray.co.uk/time.php')
-get_page('https://www.stackoverflow.com/')
-get_page('https://www.stackoverflow.com/')
-get_page('https://www.google.com/')
-get_page('https://twitter.com/')
-get_page('https://www.youtube.com/')
-get_page('https://www.instagram.com/')
-get_page('https://www.amazon.com/')
-get_page('https://www.google.com/')
-get_page('https://twitter.com/')
-get_page('https://www.reddit.com/')
-get_page('https://twitter.com/')
-get_page('https://www.stackoverflow.com/')
+for url in urls:
+    get_page(url)
 
-print(cache.get('https://www.google.com/'))
-print(cache.get('https://twitter.com/'))
-print(cache.get('https://stackoverflow.com/'))
+for url in urls:
+    count = cache.get(f"count:{url}")
+    print(f"{url}: {count}")

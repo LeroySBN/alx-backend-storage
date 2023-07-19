@@ -41,6 +41,7 @@ class Cache:
         self._redis.set(key, data)
         return key
 
+    @count_calls
     def get(self, key: str, fn: Optional[Callable] = None) -> Union[str, bytes, int, float]:
         """
         getter function for key
@@ -49,12 +50,14 @@ class Cache:
             return fn(self._redis.get(key))
         return self._redis.get(key)
 
+    @count_calls
     def get_str(self, key: str) -> str:
         """
         Method get_str
         """
         return self.get(key, str)
 
+    @count_calls
     def get_int(self, key: str) -> int:
         """
         Method get_int

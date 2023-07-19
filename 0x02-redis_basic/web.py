@@ -7,6 +7,7 @@ from typing import Callable
 
 cache = redis.Redis()
 
+
 def count_calls(method: Callable) -> Callable:
     """
     Method that takes in a function and returns a function

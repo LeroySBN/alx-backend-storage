@@ -7,6 +7,7 @@ import redis
 get_page = __import__('web').get_page
 
 cache = redis.Redis()
+cache.flushdb()
 
 urls = [
     'http://slowwly.robertomurray.co.uk/time.php',

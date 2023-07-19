@@ -3,8 +3,27 @@
 module web
 """
 import redis
+from typing import Callable
 
 cache = redis.Redis()
+
+def count_calls(method: Callable) -> Callable:
+    """
+    Method that takes in a function and returns a function
+    """
+    from functools import wraps
+
+    @wraps(method)
+    def wrapper(url):
+        """
+        Wrapper function
+        """
+        if cache.get(f"count:{url}"):
+            cache.incr(f"count:{url}")
+        else:
+            cache.set(f"count:{url}", 1)
+        return method(url)
+    return wrapper
 
 
 def get_page(url: str) -> str:
@@ -14,8 +33,8 @@ def get_page(url: str) -> str:
     import requests
     res = requests.get(url)
     key = f"count:{url}"
-    if cache.get(key):
-        cache.incr(key)
-    else:
-        cache.set(key, 1)
+    # if cache.get(key):
+    #     cache.incr(key)
+    # else:
+    #     cache.set(key, 1)
     return res.text

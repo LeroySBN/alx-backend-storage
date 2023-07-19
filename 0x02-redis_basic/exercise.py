@@ -22,7 +22,7 @@ def count_calls(method: Callable) -> Callable:
     return wrapper
 
 
-@count_calls
+@count_calls(self)
 class Cache:
     """
     Class Cache

@@ -23,6 +23,7 @@ urls = [
     'https://www.reddit.com/',
     'https://twitter.com/',
     'https://www.stackoverflow.com/',
+    '',
 ]
 
 for url in urls:
@@ -34,3 +35,4 @@ print(f"{'https://www.google.com/'}: {cache.get('count:https://www.google.com/')
 print(f"{'https://www.reddit.com/'}: {cache.get('count:https://www.reddit.com/')} >> expected: 1")
 print(f"{'https://www.youtube.com/'}: {cache.get('count:https://www.youtube.com/')} >> expected: 1")
 print(f"{'https://www.stackoverflow.com/'}: {cache.get('count:https://www.stackoverflow.com/')} >> expected: 3")
+print(f"{'not a called url'}: {cache.get('count:https://www.threads.com/')} >> expected: 0")

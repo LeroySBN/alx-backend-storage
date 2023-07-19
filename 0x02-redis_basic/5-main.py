@@ -23,7 +23,6 @@ urls = [
     'https://www.reddit.com/',
     'https://twitter.com/',
     'https://www.stackoverflow.com/',
-    '',
 ]
 
 for url in urls:

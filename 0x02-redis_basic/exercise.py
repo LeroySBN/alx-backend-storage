@@ -44,7 +44,8 @@ class Cache:
         return key
 
     @count_calls
-    def get(self, key: str, fn: Optional[Callable] = None) -> Union[str, bytes, int, float]:
+    def get(self, key: str, fn: Optional[Callable] = None) ->\
+            Union[str, bytes, int, float]:
         """
         getter function for key
         """

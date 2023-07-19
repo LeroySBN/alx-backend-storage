@@ -4,6 +4,8 @@ module web
 """
 import redis
 
+redis = redis.Redis()
+
 
 def get_page(url: str) -> str:
     """
@@ -11,7 +13,6 @@ def get_page(url: str) -> str:
     """
     import requests
     res = requests.get(url)
-    redis = redis.Redis()
     key = f"count:{url}"
     if redis.get(key):
         redis.incr(key)

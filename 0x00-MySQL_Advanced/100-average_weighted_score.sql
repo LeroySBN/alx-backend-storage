@@ -3,7 +3,7 @@
 
 DROP PROCEDURE IF EXISTS ComputeAverageWeightedScoreForUser;
 DELIMITER //
-CREATE PROCEDURE ComputeAverageWeightedScoreForUser(name VARCHAR(255))
+CREATE PROCEDURE ComputeAverageWeightedScoreForUser (user_id INT)
 BEGIN
     DECLARE total_weighted_score INT DEFAULT 0;
     DECLARE total_weight INT DEFAULT 0;

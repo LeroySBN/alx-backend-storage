@@ -10,7 +10,7 @@ import time
 cache = redis.Redis()
 
 
-def cached(method: Callable) -> Callable:
+def cache_and_track(method: Callable) -> Callable:
     """
     Method that takes in a function and returns a function
     """
@@ -29,7 +29,7 @@ def cached(method: Callable) -> Callable:
     return wrapper
 
 
-@cached
+@cache_and_track
 def get_page(url: str) -> str:
     """
     Method that takes in a URL and returns the HTML content of the URL

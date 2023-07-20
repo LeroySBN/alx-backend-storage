@@ -21,7 +21,6 @@ def count_calls(method: Callable) -> Callable:
         """
         Wrapper function
         """
-        cache.expire(f"count:{url}", timedelta(seconds=10))
         if cache.get(f"count:{url}"):
             cache.incr(f"count:{url}")
         else:

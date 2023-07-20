@@ -2,9 +2,10 @@
 """
 module web
 """
-import requests
-import redis
+from functools import wraps
 from typing import Callable
+import redis
+import requests
 import time
 
 cache = redis.Redis()
@@ -14,7 +15,7 @@ def cache_and_track(method: Callable) -> Callable:
     """
     Method that takes in a function and returns a function
     """
-    from functools import wraps
+    
 
     @wraps(method)
     def wrapper(url):

@@ -38,7 +38,7 @@ def cached_and_tracked(url: str) -> Callable:
     return decorator
 
 
-@count_calls
+@cached_and_tracked
 def get_page(url: str) -> str:
     """
     Method that takes in a URL and returns the HTML content of the URL

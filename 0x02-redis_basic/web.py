@@ -10,7 +10,7 @@ import time
 cache = redis.Redis()
 
 
-def count_calls(method: Callable) -> Callable:
+def cached(method: Callable) -> Callable:
     """
     Method that takes in a function and returns a function
     """
@@ -29,7 +29,7 @@ def count_calls(method: Callable) -> Callable:
     return wrapper
 
 
-@count_calls
+@cached
 def get_page(url: str) -> str:
     """
     Method that takes in a URL and returns the HTML content of the URL

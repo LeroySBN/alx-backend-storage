@@ -15,8 +15,6 @@ def cache_and_track(method: Callable) -> Callable:
     """
     Method that takes in a function and returns a function
     """
-    
-
     @wraps(method)
     def wrapper(url):
         """

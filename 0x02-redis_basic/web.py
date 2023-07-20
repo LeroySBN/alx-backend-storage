@@ -10,35 +10,27 @@ import time
 cache = redis.Redis()
 
 
-def cached_and_tracked(url: str) -> Callable:
+def count_calls(method: Callable) -> Callable:
     """
-    Decorator that caches the result of a function with an expiration time of 10 seconds
-    and tracks the access count.
+    Method that takes in a function and returns a function
     """
-    def decorator(func: Callable) -> Callable:
-        def wrapper(*args, **kwargs) -> str:
-            # Check if the content is cached
-            cached_content = cache.get(url)
-            if cached_content:
-                # Increment the count for the URL
-                cache.incr(f"count:{url}")
-                return cached_content.decode('utf-8')
+    from functools import wraps
 
-            # Call the original function
-            response = func(*args, **kwargs)
-
-            # Cache the content with an expiration time of 10 seconds
-            cache.setex(url, 10, response)
-
-            # Increment the count for the URL
+    @wraps(method)
+    def wrapper(url):
+        """
+        Wrapper function
+        """
+        cache.expire(f"count:{url}", timedelta(seconds=10))
+        if cache.get(f"count:{url}"):
             cache.incr(f"count:{url}")
+        else:
+            cache.set(f"count:{url}", 1)
+        return method(url)
+    return wrapper
 
-            return response
-        return wrapper
-    return decorator
 
-
-@cached_and_tracked
+@count_calls
 def get_page(url: str) -> str:
     """
     Method that takes in a URL and returns the HTML content of the URL

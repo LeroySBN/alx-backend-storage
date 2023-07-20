@@ -4,6 +4,7 @@ module web
 """
 import redis
 from typing import Callable
+from datetime import timedelta
 
 cache = redis.Redis()
 
@@ -19,6 +20,7 @@ def count_calls(method: Callable) -> Callable:
         """
         Wrapper function
         """
+        cache.expire(f"count:{url}", timedelta(seconds=10)
         if cache.get(f"count:{url}"):
             cache.incr(f"count:{url}")
         else:
@@ -36,8 +38,4 @@ def get_page(url: str) -> str:
         import requests
         res = requests.get(url)
         key = f"count:{url}"
-        # if cache.get(key):
-        #     cache.incr(key)
-        # else:
-        #     cache.set(key, 1)
         return res.text

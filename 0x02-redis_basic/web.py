@@ -2,31 +2,40 @@
 """
 module web
 """
+import requests
 import redis
 from typing import Callable
-from datetime import timedelta
+import time
 
 cache = redis.Redis()
 
 
-def count_calls(method: Callable) -> Callable:
+def cached_and_tracked(url: str) -> Callable:
     """
-    Method that takes in a function and returns a function
+    Decorator that caches the result of a function with an expiration time of 10 seconds
+    and tracks the access count.
     """
-    from functools import wraps
+    def decorator(func: Callable) -> Callable:
+        def wrapper(*args, **kwargs) -> str:
+            # Check if the content is cached
+            cached_content = cache.get(url)
+            if cached_content:
+                # Increment the count for the URL
+                cache.incr(f"count:{url}")
+                return cached_content.decode('utf-8')
 
-    @wraps(method)
-    def wrapper(url):
-        """
-        Wrapper function
-        """
-        cache.expire(f"count:{url}", timedelta(seconds=10))
-        if cache.get(f"count:{url}"):
+            # Call the original function
+            response = func(*args, **kwargs)
+
+            # Cache the content with an expiration time of 10 seconds
+            cache.setex(url, 10, response)
+
+            # Increment the count for the URL
             cache.incr(f"count:{url}")
-        else:
-            cache.set(f"count:{url}", 1)
-        return method(url)
-    return wrapper
+
+            return response
+        return wrapper
+    return decorator
 
 
 @count_calls
@@ -34,8 +43,5 @@ def get_page(url: str) -> str:
     """
     Method that takes in a URL and returns the HTML content of the URL
     """
-    if url:
-        import requests
-        res = requests.get(url)
-        key = f"count:{url}"
-        return res.text
+    res = requests.get(url)
+    return res.text
